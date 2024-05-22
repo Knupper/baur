@@ -1,8 +1,13 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit_state.dart';
 import 'package:flutter_baur/presentation/pages/advice/widgets/advice_field.dart';
+import 'package:flutter_baur/presentation/pages/advice/widgets/error_message.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+// https://github.com/Knupper/baur
 
 class AdvicePageProvider extends StatelessWidget {
   const AdvicePageProvider({super.key});
@@ -30,6 +35,8 @@ class AdvicePage extends StatelessWidget {
         ),
       ),
       body: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: Padding(
@@ -42,13 +49,25 @@ class AdvicePage extends StatelessWidget {
                         advice: 'Please fetch data first',
                       );
                     case AdviceLoadingState():
-                      return SizedBox(height: 100, width: 100, child: Center(child: CircularProgressIndicator()));
+                      return const Center(
+                        child: SizedBox(
+                          height: 200,
+                          width: 200,
+                          child: CircularProgressIndicator(
+                            color: Colors.green,
+                          ),
+                        ),
+                      );
                     case AdviceLoadedState loaded:
                       return AdviceField(
                         advice: loaded.advice,
                       );
-                    case AdviceErrorState():
-                      return Placeholder();
+                    case AdviceErrorState errorState:
+                      return Center(
+                        child: ErrorMessage(
+                          errorText: errorState.error,
+                        ),
+                      );
                   }
                 },
               ),

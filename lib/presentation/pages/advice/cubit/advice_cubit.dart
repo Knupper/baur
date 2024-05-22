@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AdviceCubit extends Cubit<AdviceCubitState> {
-  AdviceCubit() : super(const AdviceErrorState(error: 'FEHLER'));
+  AdviceCubit({
+    @visibleForTesting AdviceCubitState? defaultState,
+  }) : super(defaultState ?? const AdviceEmptyState());
 
   Future<void> fetchAdvice() {
     emit(const AdviceLoadingState());
@@ -10,7 +13,7 @@ class AdviceCubit extends Cubit<AdviceCubitState> {
     return Future.delayed(
       const Duration(seconds: 2),
       () => emit(
-        const AdviceLoadedState(advice: 'Mock loaded advice'),
+        const AdviceErrorState(error: 'Mock loaded advice'),
       ),
     );
   }
