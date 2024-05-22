@@ -11,9 +11,9 @@ class AdviceCubit extends Cubit<AdviceCubitState> {
     emit(const AdviceLoadingState());
 
     return Future.delayed(
-      const Duration(seconds: 2),
+      const Duration(seconds: 29),
       () => emit(
-        const AdviceErrorState(error: 'Mock loaded advice'),
+        const AdviceLoadedState(advice: 'Mock loaded advice'),
       ),
     );
   }
