@@ -10,8 +10,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: BaurTheme.lightTheme,
       darkTheme: BaurTheme.darkTheme,
-      themeMode: ThemeMode.dark,
-      home: const AdvicePage(),
+      themeMode: ThemeMode.light,
+      home: const AdvicePageProvider(),
     );
   }
 }

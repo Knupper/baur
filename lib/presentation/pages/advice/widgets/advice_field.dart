@@ -13,13 +13,13 @@ class AdviceField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.lightBlueAccent,
+        color: Colors.grey[50],
         borderRadius: BorderRadius.circular(8),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
-          child: BaurText.body(text: advice),
+          child: BaurText.title(text: advice),
         ),
       ),
     );
