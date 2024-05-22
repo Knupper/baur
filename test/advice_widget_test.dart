@@ -7,6 +7,7 @@
 
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_baur/domain/use_cases/advice_use_case.dart';
 import 'package:flutter_baur/presentation/pages/advice/advice_page.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit_state.dart';
@@ -21,7 +22,12 @@ void main() {
   Widget widgetUnderTest({AdviceCubit? cubit, AdviceCubitState? state}) {
     return MaterialApp(
       home: BlocProvider<AdviceCubit>(
-        create: (context) => cubit ?? AdviceCubit(defaultState: state),
+        create: (context) =>
+            cubit ??
+            AdviceCubit(
+              defaultState: state,
+              useCase: AdviceUseCase(),
+            ),
         child: const AdvicePage(),
       ),
     );

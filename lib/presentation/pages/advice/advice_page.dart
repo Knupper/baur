@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_baur/domain/use_cases/advice_use_case.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit_state.dart';
 import 'package:flutter_baur/presentation/pages/advice/widgets/advice_field.dart';
@@ -15,7 +16,9 @@ class AdvicePageProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AdviceCubit>(
-      create: (_) => AdviceCubit(),
+      create: (_) => AdviceCubit(
+        useCase: AdviceUseCase(),
+      ),
       child: const AdvicePage(),
     );
   }

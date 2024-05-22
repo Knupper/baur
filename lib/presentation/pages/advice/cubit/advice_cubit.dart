@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_baur/domain/use_cases/advice_use_case.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:result_dart/result_dart.dart';
 
 class AdviceCubit extends Cubit<AdviceCubitState> {
   AdviceCubit({
+    required this.useCase,
     @visibleForTesting AdviceCubitState? defaultState,
   }) : super(defaultState ?? const AdviceEmptyState());
 
-  Future<void> fetchAdvice() {
+  final AdviceUseCase useCase;
+
+  void fetchAdvice() {
     emit(const AdviceLoadingState());
 
-    return Future.delayed(
-      const Duration(seconds: 29),
-      () => emit(
-        const AdviceLoadedState(advice: 'Mock loaded advice'),
-      ),
-    );
+    useCase.read().fold(
+          (sucess) => emit(AdviceLoadedState(advice: sucess.advice)),
+          (failure) => emit(AdviceErrorState(error: failure.toString())),
+        );
   }
 }
