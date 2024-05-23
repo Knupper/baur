@@ -3,6 +3,7 @@ import 'package:flutter_baur/domain/repositories/advice_repository.dart';
 import 'package:flutter_baur/domain/use_cases/advice_use_case.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit_state.dart';
+import 'package:flutter_baur/presentation/pages/advice/widgets/advice_empty.dart';
 import 'package:flutter_baur/presentation/pages/advice/widgets/advice_field.dart';
 import 'package:flutter_baur/presentation/pages/advice/widgets/error_message.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,8 +51,9 @@ class AdvicePage extends StatelessWidget {
                 builder: (context, state) {
                   switch (state) {
                     case AdviceEmptyState():
-                      return AdviceField(
-                        advice: 'Please fetch data first',
+                      return AdviceEmpty(
+                        onFieldChanged: ({value}) => context.read<AdviceCubit>().valueChanged(value: value),
+                        onButtonPressed: ({id}) => context.read<AdviceCubit>().fetchAdvice(id: id),
                       );
                     case AdviceLoadingState():
                       return const Center(

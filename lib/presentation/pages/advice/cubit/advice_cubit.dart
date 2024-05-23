@@ -12,10 +12,16 @@ class AdviceCubit extends Cubit<AdviceCubitState> {
 
   final AdviceUseCase useCase;
 
+  String? _currentValue = '';
+
+  void valueChanged({String? value}) {
+    _currentValue = value;
+  }
+
   void fetchAdvice({String? id}) {
     emit(const AdviceLoadingState());
 
-    useCase.read(id: id).fold(
+    useCase.read(id: _currentValue).fold(
           (sucess) => emit(AdviceLoadedState(advice: sucess.advice)),
           (failure) => emit(AdviceErrorState(error: failure.toString())),
         );
