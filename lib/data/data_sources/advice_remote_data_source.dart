@@ -6,6 +6,8 @@ import 'package:http/http.dart' as http;
 import 'package:result_dart/result_dart.dart';
 
 abstract class AdviceDataSource {
+  AsyncResult<AdviceDto, BaurFailure> getAdviceFromApi(int id);
+
   AsyncResult<AdviceDto, BaurFailure> getRandomAdviceFromApi();
 }
 
@@ -20,6 +22,29 @@ class AdviceRestApiDataSource implements AdviceDataSource {
     try {
       final response = await client.get(
         Uri.parse(url),
+        headers: {
+          'accept': 'application/json',
+        },
+      );
+      if (response.statusCode != 200) {
+        return Result.failure(ServerFailure(
+          statusCode: response.statusCode,
+          body: response.body,
+        ));
+      } else {
+        final responseBody = jsonDecode(response.body);
+        return Result.success(AdviceDto.fromJson(responseBody));
+      }
+    } catch (error) {
+      return Result.failure(UnknownFailure());
+    }
+  }
+
+  @override
+  AsyncResult<AdviceDto, BaurFailure> getAdviceFromApi(int id) async {
+    try {
+      final response = await client.get(
+        Uri.parse('$url/$id'),
         headers: {
           'accept': 'application/json',
         },

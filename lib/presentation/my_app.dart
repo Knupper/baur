@@ -7,9 +7,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: BaurTheme.lightTheme,
-      darkTheme: BaurTheme.darkTheme,
+    return const MaterialApp(
+      // theme: BaurTheme.lightTheme,
+      // darkTheme: BaurTheme.darkTheme,
       themeMode: ThemeMode.light,
       home: const AdvicePageProvider(),
     );

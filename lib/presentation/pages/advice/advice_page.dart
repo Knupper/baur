@@ -1,7 +1,4 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:flutter_baur/data/repositories/advice_repository_mock.dart';
 import 'package:flutter_baur/domain/repositories/advice_repository.dart';
 import 'package:flutter_baur/domain/use_cases/advice_use_case.dart';
 import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit.dart';
@@ -9,7 +6,6 @@ import 'package:flutter_baur/presentation/pages/advice/cubit/advice_cubit_state.
 import 'package:flutter_baur/presentation/pages/advice/widgets/advice_field.dart';
 import 'package:flutter_baur/presentation/pages/advice/widgets/error_message.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:result_dart/result_dart.dart';
 
 // https://github.com/Knupper/baur
 
@@ -24,13 +20,15 @@ class AdvicePageProvider extends StatelessWidget {
           repository: RepositoryProvider.of<AdviceRepository>(context),
         ),
       ),
-      child: const AdvicePage(),
+      child: AdvicePage(),
     );
   }
 }
 
 class AdvicePage extends StatelessWidget {
-  const AdvicePage({super.key});
+  AdvicePage({super.key});
+
+  final TextEditingController _editingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +42,6 @@ class AdvicePage extends StatelessWidget {
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
             child: Padding(
@@ -82,9 +79,17 @@ class AdvicePage extends StatelessWidget {
             ),
           ),
           Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              controller: _editingController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(labelText: 'Advice Id'),
+            ),
+          ),
+          Padding(
             padding: const EdgeInsets.all(16.0),
             child: ElevatedButton(
-              onPressed: () => context.read<AdviceCubit>().fetchAdvice(),
+              onPressed: () => context.read<AdviceCubit>().fetchAdvice(id: _editingController.text),
               child: const Text('get advice'),
             ),
           ),
@@ -92,8 +97,4 @@ class AdvicePage extends StatelessWidget {
       ),
     );
   }
-}
-
-extension FutureResult<S extends Object, F extends Object> on Future<Result<S, F>> {
-  Future<Result<S, F>> either(S Function(S success) fnSuccess, F Function(F failure) fnFailure) => Future.value();
 }

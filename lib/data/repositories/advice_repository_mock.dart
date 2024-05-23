@@ -4,17 +4,25 @@ import 'package:flutter_baur/domain/repositories/advice_repository.dart';
 import 'package:result_dart/result_dart.dart';
 
 class AdviceRepositoryMock implements AdviceRepository {
-  final mockItems = [
-    AdviceDto(advice: 'advice', id: 0),
-    AdviceDto(advice: 'short advice', id: 1),
-    AdviceDto(advice: 'advice asdasd asd asd asdad asd dasd asd asd ad asd', id: 2),
-    AdviceDto(advice: '-', id: 3),
-  ];
+  final mockItems = List.generate(
+    100,
+    (index) => AdviceDto(advice: 'my $index advice is always the best.', id: index),
+  );
 
   @override
-  AsyncResult<AdviceDto, BaurFailure> getAdvice() {
+  AsyncResult<AdviceDto, BaurFailure> getRandomAdvice() {
     mockItems.shuffle();
     final result = mockItems.first;
+
+    // return Result<AdviceDto, Failure>.success(result).toFuture();
+    return Result<AdviceDto, BaurFailure>.success(result).toAsyncResult();
+  }
+
+  @override
+  AsyncResult<AdviceDto, BaurFailure> getAdvice({required int id}) {
+    final result = mockItems.firstWhere(
+      (element) => element.id == id,
+    );
 
     // return Result<AdviceDto, Failure>.success(result).toFuture();
     return Result<AdviceDto, BaurFailure>.success(result).toAsyncResult();

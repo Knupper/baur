@@ -3,5 +3,7 @@ import 'package:flutter_baur/data/failure/failure.dart';
 import 'package:result_dart/result_dart.dart';
 
 abstract class AdviceRepository {
-  AsyncResult<AdviceDto, BaurFailure> getAdvice();
+  AsyncResult<AdviceDto, BaurFailure> getAdvice({required int id});
+
+  AsyncResult<AdviceDto, BaurFailure> getRandomAdvice();
 }

@@ -9,7 +9,13 @@ class AdviceRepositoryRest implements AdviceRepository {
   final AdviceDataSource dataSource;
 
   @override
-  AsyncResult<AdviceDto, BaurFailure> getAdvice() async {
+  AsyncResult<AdviceDto, BaurFailure> getAdvice({required int id}) async {
+    final result = await dataSource.getAdviceFromApi(id);
+    return result;
+  }
+
+  @override
+  AsyncResult<AdviceDto, BaurFailure> getRandomAdvice() async {
     final result = await dataSource.getRandomAdviceFromApi();
     return result;
   }
